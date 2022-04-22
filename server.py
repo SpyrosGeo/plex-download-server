@@ -1,8 +1,9 @@
 from typing import Optional
 from os import listdir 
 from os.path import isfile,join
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+
 
 
 origins = ["*"]
@@ -14,3 +15,6 @@ app.add_middleware(CORSMiddleware,allow_origins =origins,allow_methods=["*"],all
 async def read_root():
     onlyFiles = [f for f in listdir(mypath) if isfile(join(mypath,f))]
     return {"files":onlyFiles}
+@app.post('/search')
+async def post_search(request:Request):
+    return await request.json()
